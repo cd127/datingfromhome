@@ -1,0 +1,12 @@
+<div class="precise-item">
+  <div class="list">
+    <label class="item item-input item-select" style="border: 0px; padding-left: 0px;"  ng-class="{ error: missed }">
+      <div class="input-label"  ng-class="{ error: missed }">
+        {{ description }}
+      </div>
+      <select ng-model="mymodel" ng-change="change(mymodel)" ng-class="{ error: missed }">
+        <option ng-selected="option == value" ng-repeat="option in optionlist track by $index">{{ option }}</option>
+      </select>
+    </label>
+  </div>
+</div>

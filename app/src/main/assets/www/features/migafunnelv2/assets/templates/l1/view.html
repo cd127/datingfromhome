@@ -1,0 +1,110 @@
+<ion-view class="migafunnelv2-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content class="migafunnelv2-view">
+        <div ng-show="is_logged_in">
+            <div class="card" >
+                <div class="item item-text-wrap item-custom">
+                    <h2>{{ "Disable the PUSH funnel" | translate}}</h2>
+                    <hr/>                
+                    <h3>{{ "Description" | translate}}</h3>
+                    <p>{{ "This option allow to stop the automatic push you are receiving from the APP. The broadcast push sent manually from app owner still enabled. To disable a all the push notification please disable them on the setting page of your mobile phone" | translate}}</p>
+                </div>
+                <div class="item item-text-wrap item-custom">
+                    
+                    <hr/>
+                    <p>
+                    <ion-checkbox class="checkbox-custom item-custom" ng-model="status" ng-change="toggleFunnel()" ng-checked="status" ng-disabled="!is_logged_in" ng-checked="status">{{ "Disabled" | translate }}</ion-checkbox>
+                    </p>
+                </div>
+            </div>
+            <div class="card" >
+                    <div class="item item-text-wrap item-custom">
+                        <h2>{{ "Disable the Email Funnel" | translate}}</h2>
+                        <hr/>                    
+                        <h3>{{ "Description" | translate}}</h3>
+                        <p>{{ "By registering in this APP are subscribed to our email funnel, with this option you are able to unsubscribe from it." | translate}}</p>
+                    <hr>
+                            <div ng-show="migamarketing.settings">
+                                <div ng-if="migamarketing.settings.privacy_consent_status == 2">
+                                    <h2>{{ "Privacy consent confirmation is not required." | translate }}.</h2>
+                                </div>
+                                <div ng-if="migamarketing.settings.privacy_consent_status == 1 && !customer_consent.consent">
+                                    <div class="item item-text-wrap item-custom">
+                                        <h2>{{ "Consent for news letter." | translate }}.</h2>
+                                        <div class="view_consent" >
+                                        {{ migamarketing.settings.privact_consent_statment | translate }}.
+                                        </div>
+                                        <div class="button-bar bar-stable mtop">
+                                        <a class="button" ng-click="saveConsent(1);">{{ "Yes, I consent" | translate }}</a>
+                                        </div>
+                                        <div class="button-bar bar-stable mtop">
+                                        <a class="button" ng-click="saveConsent(0);">{{ "No, I am not interested" | translate }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-show="!show_sub" ng-if="migamarketing.settings.privacy_consent_status == 1 && customer_consent.consent.consent_status==0">
+                                    <div class="item item-text-wrap item-custom">
+                                        <h2>{{ "In this page you can manage your subscription to our mailing-list." | translate }}.</h2>
+                                        <p class="sub_ko">{{ "You are not subscribed to our mailing-list at the moment." | translate }}.</p>
+                                        <div class="view_consent" >
+                                        {{ migamarketing.settings.privact_consent_statment | translate }}.
+                                        </div>
+                                        <div class="button-bar bar-stable mtop">
+                                        <a class="button" ng-click="updateConsent(1);">{{ "I consent to subscribe" | translate }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card" ng-show="show_sub" ng-if="migamarketing.settings.privacy_consent_status == 1 && customer_consent.consent.consent_status==1">
+                                    <div class="item item-text-wrap item-custom">
+                                        <h2>{{ "In this page you can manage your subscription to our mailing-list." | translate }}.</h2>
+                                        <p class="sub_ok">{{ "You are subscribed to our mailing-list." | translate }}.</p>
+                                        <div class="view_consent" >
+                                        {{ migamarketing.settings.privact_consent_statment | translate }}.
+                                        </div>
+                                        <div class="button-bar bar-stable mtop">
+                                        <a class="button" ng-click="updateConsent(0);">{{ "Remove the consent" | translate }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-hide="migamarketing.settings" >
+                                    <p> {{ "Migamarketing is not configured yet. Please try again later." | translate }} </p>
+                            </div>
+                        <hr/>
+                    </div>
+            </div>
+            <style>
+                    .mtop {
+                      margin-top: 10px !important;
+                    }
+                    .view_consent{
+                      margin: 10px;
+                      border: 1px solid #444;
+                      padding: 5px;
+                      height: 300px;
+                      overflow: auto;
+                    }
+                    .sub_ok{
+                      text-align: center;
+                      color: mediumseagreen !important;
+                    }
+                    .sub_ko{
+                      text-align: center;
+                      color:orangered !important;
+                    }
+                  </style>
+        </div>
+        <div class="card" ng-show="!is_logged_in">
+            <div class="item item-text-wrap item-custom">
+              <p>{{ "You must be logged in to use this feature" | translate }}.</p>
+              <div class="button-bar bar-stable mtop">
+                <a class="button" ng-click="login();">{{ "Click here to login" | translate }}</a>
+              </div>
+            </div>
+          </div>
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,18 @@
+<div>
+    <div ng-if="loading" style="text-align: center;" id="review-loader">
+        <br/>
+        <ion-spinner></ion-spinner>
+    </div>
+
+    <div ng-if="!loading" id="module-review-wrapper">
+        <div ng-if="showPrompt" ng-click="clickOnReview()" id="review-prompt" ng-bind-html="review.prompt"></div>
+
+        <div ng-if="showLink">
+            <a href="#" ng-click="clickOnReview()" id="review-link">
+                {{ review.label }}
+                <i class="icon ion-compose"></i>
+            </a>
+        </div>
+        <div style="height: 4px; width: 100%;"></div>
+    </div>
+</div>

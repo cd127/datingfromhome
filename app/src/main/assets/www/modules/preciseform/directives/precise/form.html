@@ -1,0 +1,193 @@
+<div class="precise-form">
+  <form class="precise" action="{{ action }}" method="post">
+
+    <ul style="margin-left: 5vw;">
+      <li ng-if="config.header">
+        <div ng-bind-html="trustedHtml(config.header)"></div>
+      </li>
+      <li ng-repeat="item in fields track by $index">
+        <!-- display matching type of input -->
+        <div ng-switch on="item.type">
+          <!-- text -->
+          <div style="width: 90vw;" ng-switch-when="text">
+            <precise-text-input
+              id="{{ item.id }}"
+              description="{{ item.description }}"
+              value="item.value"
+              maxlength="{{ item.max_length }}"
+              placeholder="{{ item.placeholder }}"
+              required="{{ item.required }}"
+              missed="item.missed"
+              requiremessage="{{ config.require_message }}"
+            ></precise-text-input>
+          </div>
+
+          <!-- divider -->
+          <div style="margin-bottom: 15px; margin-top: 5px; height: 1px; width: 90vw; background-color: rgb(203, 203, 203); " ng-switch-when="divider">
+          </div>
+
+          <!-- email -->
+          <div style="width: 90vw;" ng-switch-when="email">
+            <precise-email-input
+              id="{{ item.id }}"
+              description="{{ item.description }}"
+              value="item.value"
+              maxlength="{{ item.max_length }}"
+              placeholder="{{ item.placeholder }}"
+              required="{{ item.required }}"
+              missed="item.missed"
+              requiremessage="{{ config.require_message }}"
+              invalidmessage="{{ config.invalid_email_message }}"
+            ></precise-email-input>
+          </div>
+
+
+          <!-- longtext -->
+          <div style="width: 90vw;" ng-switch-when="longtext">
+            <precise-longtext-input
+              id="{{ item.id }}"
+              description="{{ item.description }}"
+              value="item.value"
+              maxlength="{{ item.max_length }}"
+              placeholder="{{ item.placeholder }}"
+              required="{{ item.required }}"
+              missed="item.missed"
+              requiremessage="{{ config.require_message }}"
+              invalidmessage="{{ config.invalid_email_message }}"
+            ></precise-longtext-input>
+          </div>
+
+          <!-- number -->
+          <div style="width: 90vw;" ng-switch-when="number">
+            <precise-number-input
+              id="{{ item.id }}"
+              description="{{ item.description }}"
+              value="item.value"
+              placeholder="{{ item.placeholder }}"
+              min="{{ item.min }}"
+              max="{{ item.max }}"
+              decimal="{{ item.decimal }}"
+              missed="item.missed"
+              required="{{ item.required }}"
+              step="{{ item.step }}"
+              requiremessage="{{ config.require_message }}"
+            ></precise-number-input>
+          </div>
+
+          <!-- range -->
+          <div style="width: 90vw;" ng-switch-when="range">
+            <precise-range-input
+              id="{{ item.id }}"
+              description="{{ item.description }}"
+              value="item.value"
+              placeholder="{{ item.placeholder }}"
+              min="{{ item.min }}"
+              missed="item.missed"
+              max="{{ item.max }}"
+              step="{{ item.step }}"
+              requiremessage="{{ config.require_message }}"
+            ></precise-range-input>
+          </div>
+
+          <!-- selectlist -->
+          <div style="width: 90vw;" ng-switch-when="selectlist">
+            <precise-selectlist-input
+              id="{{ item.id }}"
+              description="{{ item.description }}"
+              value="item.value"
+              missed="item.missed"
+              optionlist="item.value_list"
+            ></precise-selectlist-input>
+          </div>
+
+          <!-- multilist -->
+          <div style="width: 90vw;" ng-switch-when="multilist">
+            <precise-multilist-input
+              id="{{ item.id }}"
+              description="{{ item.description }}"
+              value="item.value"
+              missed="item.missed"
+              optionlist="item.value_list"
+            ></precise-multilist-input>
+          </div>
+
+          <!-- time -->
+          <div style="width: 90vw;" ng-switch-when="time">
+            <precise-time-input
+              value="item.value"
+              missed="item.missed"
+              description="{{ item.description }}"
+              pmam="{{ item.ampm }}"
+              setlabel="{{ config.set_time }}"
+              closelabel="{{ config.close_time }}"
+              step="{{ item.step }}"
+              placeholder="{{ item.placeholder }}"
+            ></precise-time-input>
+          </div>
+
+          <!-- date -->
+          <div style="width: 90vw;" ng-switch-when="date">
+            <precise-date-input
+              value="item.value"
+              missed="item.missed"
+              description="{{ item.description }}"
+              setlabel="{{ config.set_time }}"
+              closelabel="{{ config.close_time }}"
+              todaylabel="{{ config.today }}"
+              dayslist="config.days_list"
+              monthslist="config.months_list"
+              placeholder="{{ item.placeholder }}"
+              mondayfirst="{{ item.monday_first }}"
+              showtoday="{{ item.showtoday }}"
+            ></precise-date-input>
+          </div>
+
+          <!-- toggle -->
+          <div style="width: 90vw;" ng-switch-when="toggle">
+            <precise-toggle-input
+              value="item.value"
+              missed="item.missed"
+              description="{{ item.description }}"
+            ></precise-toggle-input>
+          </div>
+
+          <!-- image -->
+          <div style="width: 90vw;" ng-switch-when="image">
+            <precise-image-input
+              value="item.value"
+              missed="item.missed"
+              description="{{ item.description }}"
+              placeholder="{{ item.placeholder }}"
+            ></precise-image-input>
+          </div>
+
+          <!-- color -->
+          <div style="width: 90vw;" ng-switch-when="color">
+            <precise-color-input
+              id="{{ item.id }}"
+              description="{{ item.description }}"
+              value="item.value"
+              missed="item.missed"
+              optionlist="item.value_list"
+            ></precise-color-input>
+          </div>
+
+          <!-- separator html -->
+          <div style="width: 90vw;" ng-switch-when="separatorhtml">
+            <precise-separatorhtml-input
+              id="{{ item.id }}"
+              value="item.value"
+            ></precise-separatorhtml-input>
+          </div>
+
+        </div>
+      </li>
+      <li ng-if="config.footer">
+        <div ng-bind-html="trustedHtml(config.footer)"></div>
+      </li>
+    </ul>
+    <br/>
+    <button type="button" class="button button-positive" style="width: 100%;" ng-click="submit()">{{ config.submit_button_text }}</button>
+  </form>
+  <br/>
+</div>

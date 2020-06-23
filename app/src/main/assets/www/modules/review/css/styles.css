@@ -1,0 +1,14 @@
+#review-link {
+  color: grey;
+  font-size: 18px;
+}
+
+#review-link a:visited {
+  color: grey;
+}
+
+.view-review .item p{
+  overflow: visible;
+  text-overflow: initial;
+  white-space: initial;
+}

@@ -1,0 +1,30 @@
+<ion-view class="migawordpress-view migawordpress-module" sb-page-background >
+    <ion-nav-title>{{ migawordpress.page_title }} </ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-show="is_logged_in" ng-click="refresh()"
+                class="button button-clear header-item appmetropolisv2-secondary-button">
+            <i class="ion-refresh"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content  has-header="true" has-tabs="true" class="migawordpress-view" >
+        <div class="list"ng-show="is_logged_in" style="padding-left:0px;padding-right:0px;padding-bottom:0px" >
+          <a style="min-height:64px;border-bottom:2px solid black;" ng-repeat="x in migawordpress.activeurls" class="item item-thumbnail-left" href="" ng-click="loginuser(x)">
+            <img style="max-width:40px;max-height:40px" src="{{x.icon_source}}">
+            <h2 style="margin-left:-40px;margin-top:13px;">
+              {{x.link_title}}
+            </h2>
+         </a>
+          <div class="item" style="margin-bottom:2px;" ng-show="!migawordpress.activeurls.length">
+              <h2 class="" style="font-weight:200;text-align:center">{{ "No items found" | translate}}</h2>
+          </div>
+        </div>
+        <div class="card" ng-show="!is_logged_in">
+            <div class="item item-text-wrap item-custom">
+              <p>{{ "You must be logged in to use this feature" | translate }}.</p>
+              <div class="button-bar bar-stable mtop">
+                <a class="button" ng-click="login();">{{ "Click here to login" | translate }}</a>
+              </div>
+            </div>
+        </div>
+    </ion-content>
+  </ion-view>

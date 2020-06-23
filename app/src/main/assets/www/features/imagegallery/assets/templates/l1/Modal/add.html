@@ -1,0 +1,50 @@
+<ion-modal-view sb-page-background
+                ng-controller="ImagegalleryController"
+                class="imagegallery imagegallery-add">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeAddModal()">
+                <i class="icon ion-sb-close-modal"></i>
+            </button>
+        </div>
+        <h1 class="title"> {{ "Add New" | translate:"imagesallery" }} </h1>
+    </ion-header-bar>
+
+   <ion-content class="has-header">
+
+     <div class="list">
+            <div class="item item-custom item-body" ng-if="addcontent.uploading_image!=''">
+              <img class="full-image" ng-model="addcontent.uploading_image" src="{{addcontent.uploading_image}}">
+            </div>
+
+            <div class="item item-icon-left item-custom" ng-click="addPicture()">
+              <i class="icon ion-camera"></i> {{ "Upload Photo" | translate:"imagegallery" }}
+            </div>
+
+            <label class="item item-custom item-input">
+                  <textarea placeholder='{{ "Enter a caption..." | translate:"imagegallery" }}' ng-model="addcontent.comment"></textarea>
+            </label>
+
+           <div class="item item-custom item-toggle" ng-if="settings.is_publish == 1">
+              {{ "Display Publicly" | translate:"imagegallery" }}
+              <label class="toggle toggle-positive">
+                  <input type="checkbox"
+                         ng-model="addcontent.is_public">
+                  <div class="track">
+                      <div class="handle"></div>
+                  </div>
+              </label>
+          </div>
+
+          <button type="submit"
+                class="button button-positive button-full button-positive-custom"
+                ng-click="SaveImageInfo()"
+                ng-show="!is_loading">{{ "Submit" | translate:"imagegallery" }}</button>
+
+
+      </div>
+
+   </ion-content>
+</ion-modal-view>

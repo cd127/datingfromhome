@@ -1,0 +1,29 @@
+<div class="precise-item">
+  <div class="row updown">
+    <button class="button button-custom" type="button" ng-click="decreaseAmount()" style="float:right;">
+      <i class="icon ion-minus-circled"></i>
+    </button>
+
+    <label class="precise-text-input item-input item-floating-label">
+      <span class="precise-text-input input-label" ng-class="{ focused: vm.input_focused, error: vm.error || missed }">{{ description }}</span>
+      <input
+        class="precise-text-input"
+        ng-focus="focus()"
+        ng-blur="blur()"
+        type="text"
+        name="{{ id }}"
+        placeholder="{{ vm.placeholder }}"
+        ng-model="value"
+        ng-class="{ error: vm.error || missed }"
+        ng-change="change()"
+      >
+    </label>
+
+    <button class="button button-custom" type="button" ng-click="increaseAmount()" style="float:left;">
+        <i class="icon ion-plus-circled"></i>
+    </button>
+  </div>
+  <div class="precise-text-input error-container" style="padding-left: 58px; text-align: left; width: 100%;" ng-show="vm.error">
+    <span class="precise-text-input require-span" >{{ requiremessage }}</span>
+  </div>
+</div>

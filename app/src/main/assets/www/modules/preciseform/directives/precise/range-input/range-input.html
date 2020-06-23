@@ -1,0 +1,17 @@
+<div class="precise-item">
+  <div class="row">
+    <div class="col">
+      {{ description }}
+    </div>
+    <div class="col" ng-model="value">
+      <label ng-model="value">{{ value }}</label>
+    </div>
+  </div>
+  <div class="list">
+    <div class="item range range-positive" style="border: 0px;">
+      {{ vm.min }}
+      <input type="range" name="volume" min="{{ vm.min }}" step="{{ vm.step}}" max="{{ vm.max }}" value="value" ng-model="value">
+      {{ vm.max }}
+    </div>
+  </div>
+</div>

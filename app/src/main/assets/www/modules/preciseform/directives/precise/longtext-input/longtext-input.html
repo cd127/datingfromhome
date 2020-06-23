@@ -1,0 +1,25 @@
+<div class="precise-item">
+  <label class="precise-text-input item-input item-floating-label">
+    <span class="precise-text-input input-label" ng-class="{ focused: input_focused, error: error || missed }">{{ description }}</span>
+    <textarea
+      class="precise-text-input"
+      ng-focus="focus()"
+      ng-blur="blur()"
+      type="text"
+      name="{{ id }}"
+      placeholder="{{ placeholder }}"
+      maxlength="{{ maxlength }}"
+      ng-model="value"
+      ng-class="{ error: error || missed }"
+      ng-change="change()"
+      rows="5"
+    >
+    </textarea>
+  </label>
+  <div class="precise-text-input error-container" ng-show="error || missed">
+    <span class="precise-text-input require-span" >{{ requiremessage }}</span>
+  </div>
+  <div class="precise-text-input count-div" ng-show="maxlength">
+    {{ count }} / {{ maxlength }}
+  </div>
+</div>

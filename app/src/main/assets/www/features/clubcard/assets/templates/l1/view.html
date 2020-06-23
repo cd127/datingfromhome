@@ -1,0 +1,55 @@
+<ion-view class="Clubcard" sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+    <div class="dycolor auto_height">
+        <div class="card">
+            <div class="item item-image" ng-if="clubcard_data.cover != null ">
+                <img ng-src="{{ clubcard_data.cover }}" class="image_background">
+            </div>
+        </div>
+        <div class="row badgename">
+             <h3>{{ user.fname }} {{ user.lname }}</h3>
+        </div>
+
+        <div class="row badgename_image" ng-if="user.badgename">
+            <img ng-src="{{ user.badge }} ">
+            <span>{{ user.badgename  | translate}}</span>
+        </div>  
+        <canvas id="progressCanvas" height="150" width="500"></canvas>
+        <h5 class="before_point" ng-if="clubcard_data.behind !=null">
+            {{clubcard_data.becoming_message}}
+        </h5>
+        </h5>
+        <div class="row note-privilege" ng-style="clubcard_data.behind ==null && {'margin-top':'-20%'}">
+            <div class="col col-offset-10 col-80">
+                <div class="row purchase_entries" ng-class="user.note == null ? 'no_border' :'' ">
+                    <h4 ng-if="user.badgename != null">{{user.privilege | translate}}</h4>
+                </div>
+                <div class="row">
+                     <p class="next_visit" ng-if="user.badgename != null">{{ user.note | translate}}</p>
+                </div>
+            </div>
+        </div>
+        <button class="button button-full button-dark always_bottom" ng-click="showTC()">
+            {{"Terms & Conditions" | translate}}
+        </button> 
+    </div>
+        <script id="templates/modal.html" type="text/ng-template">
+            <ion-modal-view>
+                <ion-header-bar class="bar bar-header bar-dark">
+                    <h1 class="title">
+                        {{"Terms & Conditions" | translate}}
+                    </h1>
+                    <button  class="button button-clear button-primary" ng-click="modal.hide()">
+                        {{"Cancel" | translate}}
+                    </button>
+                </ion-header-bar>
+                <ion-content>
+                    <div class="list">
+                        <div class="padding item-text-custom" ng-bind-html="clubcard_data.terms | trusted_html"></div>
+                    </div>
+                </ion-content>
+            </ion-modal-view>
+        </script>
+    </ion-content>
+</ion-view>

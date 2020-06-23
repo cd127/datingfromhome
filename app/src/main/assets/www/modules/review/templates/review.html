@@ -1,0 +1,27 @@
+<ion-view sb-page-background class="view-review">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ui-sref="goHome()" class="button button-clear header-item"></button>
+    </ion-nav-buttons>
+
+    <ion-content sb-background-image>
+        <div ng-if="loading" style="text-align: center;">
+            <br/>
+            <ion-spinner></ion-spinner>
+        </div>
+
+        <div ng-if="!loading" id="module-review-wrapper">
+            <ion-list class="form-group">
+                <ion-item class="item item-custom">
+                    <div class="prompt" ng-bind-html="review.prompt"></div>
+                </ion-item>
+                <ion-item class="item item-custom">
+                    <button ng-click="clickOnReview()" class="button button-block button-custom review-button">
+                        <i class="icon ion-compose"></i>
+                        {{ review.label }}
+                    </button>
+                </ion-item>
+            </ion-list>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,101 @@
+<ion-modal-view sb-page-background
+                ng-controller="ImagegalleryController"
+                class="imagegallery imagegallery-details">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeDetailsModal()">
+                <i class="icon ion-sb-close-modal"></i>
+            </button>
+        </div>
+
+        <h1 class="title">{{ imageDetails.firstname }} {{ imageDetails.lastname }}</h1>
+
+
+        <div class="buttons">
+            <button class="button button-clear"
+                   ng-click="sharefile(gallery_basePath+imageDetails.image_path)">
+                <i class="icon ion-share"></i>
+            </button>
+        </div>
+        
+   </ion-header-bar>
+
+   <ion-content class="has-header">
+    <div class="list">
+      <div class="item item-custom item-body">
+        <img class="full-image" src="{{gallery_basePath+imageDetails.image_path}}"  zoom-view zoom-src="{{gallery_basePath+imageDetails.image_path}}">
+        <p ng-if="imageDetails.comment!=''"> {{ imageDetails.comment }} </p>
+      </div>
+   </div>
+
+   <div class="list imagegallery-basic-info">
+     <div class="item item-divider">
+       {{ "Info" | translate:"imagesallery" }}
+    </div>
+   
+    <a  ng-if="settings.is_connect_phonebook == 1" ng-click="GoToPhonebook(imageDetails.customer_id)" class="item item-custom">
+         <span class="item-note">
+            {{ imageDetails.firstname }} {{ imageDetails.lastname }} 
+        </span>
+        <p  style="text-transform: capitalize;">  {{ "Post By" | translate:"imagesallery" }}</p>
+    </a>
+
+    <a  ng-if="settings.is_connect_phonebook == 0" class="item item-custom">
+         <span class="item-note">
+            {{ imageDetails.firstname }} {{ imageDetails.lastname }} 
+        </span>
+        <p  style="text-transform: capitalize;">  {{ "Post By" | translate:"imagesallery" }}</p>
+    </a>
+    
+    <a class="item item-custom ">
+       <span class="item-note">
+           <label ng-bind="formatDate(imageDetails.created_at ) |  date:'MM/dd/yyyy'"></label>
+        </span>
+        <p  style="text-transform: capitalize;">
+           {{ "Post Date" | translate:"imagesallery" }}
+        </p>
+    </a>
+
+    <a  ng-if="is_logged_customer_id == imageDetails.customer_id" class="item item-custom">
+         <span class="item-note">
+            {{ imageDetails.is_public == 1 ? 'Public' : 'Private' | translate:"imagesallery"  }}  {{ ::"Photo" | translate:"imagesallery" }}
+        </span>
+       <p  style="text-transform: capitalize;"> {{ "Type" | translate:"imagesallery" }} </p>
+    </a>
+
+    <a  ng-if="is_logged_customer_id == imageDetails.customer_id" class="item item-custom">
+         {{ imageDetails.is_public == 1 ? 'Change to private' : 'Change to public' | translate:"imagesallery"  }}
+         <span class="item-note">
+            <label class="toggle toggle-positive">
+                <input type="checkbox"
+                       ng-model="imageDetails.is_public"
+                       ng-change="toggleboxChange()">
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+        </span>
+    </a>
+
+  </div>
+
+  <div class="list imagegallery-action-buttons">
+      <div class="item item-divider item-divider-custom">
+       </div>
+       <a class="item item-custom item-icon-left positive" ng-click="sharefile(gallery_basePath+imageDetails.image_path)">
+         <i class="icon ion-share"></i>
+          {{ "Share" | translate:"imagesallery" }}
+       </a> 
+
+
+       <a ng-if="is_logged_customer_id == imageDetails.customer_id" class="item item-custom item-icon-left assertive" ng-click="deletePhoto(imageDetails.id)">
+         <i class="icon ion-trash-a"></i>
+          {{ "Delete" | translate:"imagesallery" }}
+       </a>      
+      
+  </div>
+
+   </ion-content>
+</ion-modal-view>

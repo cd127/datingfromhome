@@ -1,0 +1,60 @@
+.precise-item input.precise-text-input, .precise-item textarea.precise-text-input  {
+  border-bottom: 1px black solid;
+}
+
+.precise-item input:focus.precise-text-input, .precise-item textarea:focus.precise-text-input {
+  border-bottom: 2px blue solid;
+}
+
+.precise-item .precise-text-input.input-label {
+  font-size: 90%;
+}
+
+.precise-item .precise-text-input.input-label {
+  color: black;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.precise-item .precise-text-input.input-label.focused {
+  color: blue;
+}
+
+.precise-item .precise-text-input.item-input.item-floating-label {
+  padding: 0px 0px 0px 0px;
+  width: 100%;
+}
+
+.precise-item .precise-text-input.require-span, .precise-item .error {
+  color: red;
+  font-size: 90%;
+}
+
+.precise-item button.error {
+  border-bottom: 2px red solid;
+}
+
+.precise-item input.precise-text-input.error, .precise-item textarea.precise-text-input.error {
+  border-bottom: 2px red solid;
+}
+
+.precise-item span.precise-text-input.input-label.error {
+  color: red;
+}
+
+.precise-item .precise-text-input.error-container {
+  float: left;
+}
+
+.precise-item .precise-text-input.count-div {
+  float: right;
+  font-size: 90%;
+}
+
+.precise-item {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.precise-item label.item.item-checkbox {
+  border: 0px;
+}

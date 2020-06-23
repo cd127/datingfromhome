@@ -1,0 +1,12 @@
+<div class="precise-item precise-image-input">
+  <div class="row">
+    <div class="col">
+      <label ng-class="{ error: missed }">{{ description }}</label>
+    </div>
+    <div class="col">
+      <button type="button" class="button button-positive" ng-click="takePicture()" ng-class="{ error: missed }">
+        {{ placeholder }}
+      </button>
+    </div>
+  </div>
+</div>

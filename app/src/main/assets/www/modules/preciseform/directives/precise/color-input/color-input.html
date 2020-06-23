@@ -1,0 +1,15 @@
+<div class="precise-item">
+  <div class="row">
+    <div class="col" ng-class="{ error: missed }">
+      {{ description }}
+    </div>
+    <div class="col">
+      <span style="color: {{ value}}; background-color: {{ invertColor(value) }}">{{ value }}</span>
+    </div>
+  </div>
+  <div class="row" style="padding: 0; width: 100; flex-wrap: wrap;">
+    <div class="col" ng-repeat="option in optionlist track by $index">
+      <button type="button" class="button" ng-click="selectColor(option)" style="background-color: {{ option }}; color: {{ invertColor(option) }};">{{ option }}</button>
+    </div>
+  </div>
+</div>

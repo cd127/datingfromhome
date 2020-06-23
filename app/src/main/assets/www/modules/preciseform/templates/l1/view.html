@@ -1,0 +1,10 @@
+<ion-view sb-page-background class="view-preciseform">
+    <ion-nav-title>{{ vm.page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ui-sref="goHome()" class="button button-clear header-item"></button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <precise-form fields="vm.fields" config="vm.config" action="vm.config.action" pagetitle="vm.page_title" redirectafter="vm.redirect_after" redirecturl="vm.redirect_url" valueid="vm.value_id"></precise-form>
+    </ion-content>
+</ion-view>

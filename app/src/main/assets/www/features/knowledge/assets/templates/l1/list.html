@@ -1,0 +1,334 @@
+<ion-view sb-page-background
+          cache-view="false"
+          view-title=" "
+		  hide-back-button="false">
+    <ion-nav-buttons side="right">
+		<ul ng-click="showPinItem('search')"
+			class="search-span">
+			<li>
+				<i class="icon ion-search pin-serach-left"></i>
+			</li>
+			<li>
+				<span class="text">{{ "Search" | translate }}</span>
+			</li>
+		</ul>
+		<ul ng-click="newPost()"
+			class="ask-span">
+			<li>
+				<i class="icon ion-plus-circled pin-question-box-right"></i>
+			</li>
+			<li>
+				<span class="text">{{ "Ask" | translate }}</span>
+			</li>
+		</ul>
+    </ion-nav-buttons>
+    <div id="search-box"
+		 class="list knowledge-list fanwall-list search-box"
+		 ng-style="knowledgeSearchStyle">
+	    <div class="card list-item-custom margin-10"
+			 ng-if="show_search">
+	    	<div class="item item-input-inset custom-search-bar">
+	            <label class="item-input-wrapper">
+	                <i class="icon ion-search placeholder-icon"></i>
+	                <input id="searchInput"
+						   class="searchInput"
+						   type="text"
+						   placeholder="{{ 'Search' | translate }}"
+						   ng-keyup="searchQuestions($event)"
+						   ng-model="search"
+						   name="search">
+	            </label>
+	            <i ng-show="search"
+				   ng-click="clearSearch()"
+				   class="icon ion-ios-close search-icon-close"></i>
+	        </div>
+	    </div>
+	    <div class="row custom-row"
+			 ng-if="show_search">
+			<div class="custom-col-1">
+				<div class="custom-card no-margin">
+					<div class="card no-margin custom-card">
+					    <select ng-change="searchTag(tag_id, true)"
+								class="sort-by"
+								ng-model="tag_id">
+					        <option ng-selected="!tag_id"
+									value="">{{ "All Tags" | translate }}</option>
+					        <option ng-repeat="tag in tags"
+									value="{{ tag.tag_id }}"
+									ng-selected="tag_id == tag.tag_id">{{ tag.tag_name }}</option>
+					    </select>
+					</div>		
+				</div>
+			</div>
+			<div class="custom-col-2">
+				<div class="custom-card no-margin">
+					<div class="card no-margin custom-submit">
+						<button ng-click="searchFunc()"
+								class="button button-positive-custom button-positive custom-submit-button">
+							{{ "Go" | translate}}
+						</button>		    
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ion-content scrollbar-y="false"
+                 ng-style="knowledgeListStyle"
+				 on-scroll="getScroll()">
+    	<ion-refresher on-refresh="pullMore(-40)"></ion-refresher>	
+		<div class="loader"
+			 ng-show="is_loading">
+		    <ion-spinner class="spinner-custom"></ion-spinner>
+		</div>
+		<div id="knowledge-list">
+			<div class="sort card no-pad-bottom no-border no-shadow margin-bottom-0"
+				 ng-if="(tag_id || search) && !is_loading">
+				<span ng-click="clearTag('all')"
+					  ng-if="tag_id || search">
+					<i class="icon ion-arrow-left-c"></i>
+					{{ "Back to main results"  | translate }}
+				</span>
+				<span ng-click="clearTag()"
+					  ng-repeat="tag in tags"
+					  ng-if="tag_id == tag.tag_id"
+					  class="align-right">
+					{{ tag.tag_name }}
+					<i class="icon ion-ios-close"></i>
+				</span>
+			</div>
+			<div class="list knowledge-list fanwall-list"
+				 ng-if="!is_loading && collection.length">
+	            <div ng-repeat="knowledge_post in collection"
+					 class="card list-item-custom margin-10">
+					<div ng-if="knowledge_post.tags.length"
+						 class="item item-custom item-list-header item-text-wrap no-border no-pad-bottom">
+						<ion-col class="tags"
+								 ng-click="searchTag(tag.tag_id)"
+								 ng-repeat="tag in knowledge_post.tags">
+					      <span>
+					      	{{tag.tag_name}}
+					      </span>
+					    </ion-col>
+					</div>
+	                <div ng-click="goToTagPost(knowledge_post.id)"
+						 class="item item-text-wrap item-custom message no-pad-bottom no-border">
+	                	<div class="question">{{ "Question" | translate }}</div>
+	                	<div  ng-if="knowledge_post.image" class="img_div">
+	                		<img class="question_img" ng-src="{{knowledge_post.base_url}}{{ knowledge_post.image }}"/>
+	                	</div>	
+	                	<div class="bold">{{knowledge_post.title}}</div>
+					</div>
+	                <div ng-click="goToTagPost(knowledge_post.id)"
+						 class="item item-custom item-text-wrap no-pad-bottom no-border"
+						 ng-if="knowledge_post.details.answers.answer">
+	                	<span class="answer">{{"Answer" | translate}}</span>
+	                	<div class="white-space-pre"
+							 ng-bind-html="getText(knowledge_post.details.answers.answer)"></div>
+	                </div>
+					<div class="item item-custom no-pad-top bold no-border text-right">
+						<span ng-click="goToTagPost(knowledge_post.id)"
+							  class="read-more"
+							  ng-if="knowledge_post.details.answers.answer">{{ "Read more" | translate }}...</span>
+						<span ng-if="!knowledge_post.details.answers.answer">
+							<button ng-click="goToTagPost(knowledge_post.id, 'add')"
+									ng-if="is_logged_in"
+									class="answer-button button button-clear button-positive button-positive-custom" >
+								{{ "Add answer" | translate }}
+							</button>
+						</span>
+				    </div>
+	                <div ng-click="goToTagPost(knowledge_post.id)"
+						 class="item item-image item-custom gallery-view no-border">
+	                	<hr style="margin: 1px auto; width: 90%;">
+	                    <p class="padding text-right">
+	                        <span>
+	                	        <i class="icon ion-ios-chatboxes-outline"
+								   ng-if="!knowledge_post.details.answers.has_own"></i>
+		                		<i class="icon ion-ios-chatboxes"
+								   ng-if="knowledge_post.details.answers.has_own"></i>
+	                            {{ knowledge_post.details.answers.text }}
+	                        </span>
+	                        <span>
+			                    <i class="icon ion-ios-heart-outline"
+								   ng-if="!knowledge_post.details.likes.has_own"></i>
+				                <i class="icon ion-ios-heart"
+								   ng-if="knowledge_post.details.likes.has_own"></i>
+	                            {{ knowledge_post.details.likes.text }}
+	                        </span>
+	                    	<div class="clear"></div>
+	                    </p>
+	                </div>
+	            </div>
+	        </div>
+			<div class="list margin-10"
+				 ng-if="!is_loading && !collection.length && !searching">
+	            <div class="item text-center item-custom">
+	                {{ "No items found" | translate }}
+	            </div>
+	        </div>
+			<div class="list margin-10"
+				 ng-if="searching">
+	            <div class="item text-center item-custom">
+	                {{ "Please wait..." | translate }}
+	            </div>
+	        </div>
+			<ion-infinite-scroll ng-if="can_load_older_posts"
+			                     on-infinite="loadMore()"
+			                     immediate-check="false"
+			                     distance="10%"
+			                     class="spinner-custom">
+			</ion-infinite-scroll>
+		</div>
+    </ion-content>
+	<style type="text/css">
+		.item-avatar-header {
+			position: relative;
+		}
+		.item-list-header {
+			background-color: #fff;
+		}
+		.no-pad-bottom {
+			padding-bottom: 0; 
+		}
+		.no-pad-top {
+			padding-top: 0; 
+		}
+		.margin-10 {
+			margin-top: 10px; 
+			margin-bottom: 10px; 
+		}
+		.margin-bottom-0 {
+			margin-bottom: 0; 
+		}
+		.margin-top-5 {
+			margin-top: 5px; 
+		}
+		.min-height-50 {
+			min-height: 50px;
+		}
+		.knowledge-list .list-item-custom .custom-list-icon {
+			top: 5px;
+		}
+		.card {
+	    	border-radius: 10px;		
+		}
+		.knowledge-list .no-border {
+		    border: 0 !important;
+		}
+		.knowledge-list .item-list-header i {
+		    font-size: 6px;
+		}
+		button.answer-button {
+		    margin: 0;
+		    padding: 0 5px;
+		    max-height: 25px;
+		    min-height: 25px;
+		    line-height: 1;
+		    float: right;
+		}
+		.search-box,
+		.question-box {
+		    position: fixed;
+		    left: 0;
+		    display: block;
+		    z-index: 99999;
+		    width: 100%;
+		    margin: 0;
+		}
+		.pin-serach-left,
+		.pin-question-box-right {
+	        font-size: 18px;
+		}
+
+		.search-icon-close {
+			font-size: 20px;
+		}
+		.searchInput {
+			width: 100%;
+		}
+		#knowledge-list {
+			-webkit-transition: all 0.3s ease-in-out;
+			-moz-transition: all 0.3s ease-in-out;
+			-o-transition: all 0.3s ease-in-out;
+			transition: all 0.3s ease-in-out;
+		}
+		ul.search-span,
+		ul.ask-span {
+		    text-align: center;
+		    border-left: 1px solid;
+		    min-width: 40px;
+		}
+		ul.search-span i.pin-serach-left,
+		ul.ask-span i.pin-question-box-right {
+		    line-height: 1;
+		    margin: 0;
+		    padding: 0;
+		}
+		ul.search-span span.text,
+		ul.ask-span span.text {
+		    font-size: 12px;
+		    line-height: 1;
+		    margin: 0;
+		}
+		ion-col.tags {
+		    margin-right: 5px;
+		    margin-bottom: 5px;
+		    padding: 1px 10px;
+		    background: #eeeeee;
+		    border-radius: 3px;
+		    font-size: 12px;
+		    display: inline-block;
+		}
+		.question, .answer, .sort, .read-more, .answer-button {
+			font-size: 12px;
+		}
+		.sort {
+			padding: 0 5px;
+		}
+		select.sort-by {
+			appearance: none;
+			-moz-appearance: none;
+			-webkit-appearance: none;
+			background-image: url('features/knowledge/assets/media/down-arrow.png');
+			background-position: right 13px bottom 13px;
+			background-repeat: no-repeat;
+			padding: 10px 20px;
+			padding-right: 35px;
+			background-size: 18px;
+			border: 0;
+			width: 100%;
+		}
+		.shadow-none {
+			box-shadow: none;
+		}
+		.custom-submit {
+			border-radius: 50px;
+			float: right;
+			border: 5px solid #fff;
+		}
+		.custom-submit-button {
+			line-height: 1;
+			min-height: 30px;
+			border: 0;
+		}
+		.no-margin {
+		    margin: 0 2px;
+		    padding: 0;
+		}
+		.custom-row .col {
+		    padding: 0;
+		}
+		.custom-col-1 {
+			width: 100%;
+		}
+		.white-space-pre {
+			white-space: pre-line !important;
+		}
+		img.question_img {
+    		max-width: 70%;
+    	}
+    	.img_div {
+    		text-align: center;
+		}
+	</style>
+</ion-view>

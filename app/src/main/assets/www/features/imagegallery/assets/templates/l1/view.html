@@ -1,0 +1,85 @@
+<ion-view sb-page-background class="image-gallery" cache-view="false">
+    <ion-nav-title>{{ page_title }}
+    </ion-nav-title>
+    <ion-nav-buttons side="secondary">
+       <button class="button button-clear header-item" id="refresh-data" ng-click="reloadData()" ng-show="is_logged_customer_id">
+            <i class="icon ion-refresh"></i>
+        </button> 
+        <button class="button button-clear header-item" ng-click="addPhoto()"  ng-show="is_logged_customer_id" >
+            <i class="icon ion-camera"></i>
+        </button> 
+    </ion-nav-buttons>
+   
+   <div ng-hide="is_loading" class="tabs tabs-striped tabs-top tabs-background-positive-custom image-gallery-tabs" ng-if="settings.is_publish == 1">
+        <a class="tab-item tab-item-custom" ng-class="is_public == 1 ?'active' : '' " ng-click="tabContent(1)">
+          {{ settings.tab_1 == '' ? 'Public Gallery' : settings.tab_1 | translate:"imagesallery" }}
+        </a>
+        <a class="tab-item tab-item-custom" ng-class="is_public == 2 ?'active' : '' " ng-click="tabContent(2)">
+          {{ settings.tab_2 == '' ? 'Private Gallery' : settings.tab_2 | translate:"imagesallery" }}
+        </a>
+    </div>
+
+    <div class="loader" ng-show="is_loading">
+        <ion-spinner class="spinner-custom"></ion-spinner>
+    </div>
+
+    <ion-refresher ng-if="use_pull_refresh"
+                   pulling-text="{{ 'Pull to refresh...' | translate }}"
+                   on-refresh="reloadData()">
+    </ion-refresher>
+
+    <ion-content ng-hide="is_loading" class="has-header" ng-class="settings.is_publish == 1 ? 'has-subheader' : ''">
+      <div class="list">
+
+         <button class="button button-clear  button-full button-custom" ng-click="loginButton()" ng-hide="is_logged_customer_id">
+             {{ "Please Login" | translate:"imagesallery" }}!
+        </button> 
+
+         <div class="item item-custom gallery-item" id="photos-grid_public" ng-show="is_public == 1">
+            <div class="row" ng-repeat="image in images.gallery_images" ng-if="$index % 3 === 0"> 
+                 <div class="col col-33"  ng-if="$index < images.gallery_images.length">
+                      <img class="imagesallery-grid-img" ng-src="{{ gallery_basePath+images.gallery_images[$index].image_path}}" width="100%" ng-click="viewDetails(images.gallery_images[$index])" />
+                    
+                  </div>
+                  <div class="col col-33" ng-if="$index + 1 < images.gallery_images.length">
+                      <img class="imagesallery-grid-img" ng-src="{{gallery_basePath+images.gallery_images[$index + 1].image_path}}" width="100%" ng-click="viewDetails(images.gallery_images[$index + 1])"/>
+                      
+                  </div>
+                  <div class="col col-33" ng-if="$index + 2 < images.gallery_images.length">
+                      <img class="imagesallery-grid-img" ng-src="{{gallery_basePath+images.gallery_images[$index + 2].image_path}}" width="100%" ng-click="viewDetails(images.gallery_images[$index + 2])"/>
+                       
+                  </div>
+               </div>
+
+               <div class="row text-center" ng-if="images.gallery_images.length == 0">
+                  <div class="col text-center">
+                    <p> {{ "No photos uploaded yet" | translate:"imagesallery" }}!</p>
+                  </div>
+                </div>
+         </div>
+
+         <div class="item item-custom gallery-item" id="photos-grid_private" ng-show="is_public == 2">
+            <div class="row" ng-repeat="image in images.customer_image" ng-if="$index % 3 === 0"> 
+                 <div class="col col-33"  ng-if="$index < images.customer_image.length">
+                      <img class="imagesallery-grid-img" ng-src="{{ gallery_basePath+images.customer_image[$index].image_path}}" width="100%"  ng-click="viewDetails(images.customer_image[$index])"  />
+                    
+                  </div>
+                  <div class="col col-33" ng-if="$index + 1 < images.customer_image.length">
+                      <img class="imagesallery-grid-img" ng-src="{{gallery_basePath+images.customer_image[$index + 1].image_path}}" width="100%" ng-click="viewDetails(images.customer_image[$index + 1])"  />
+                      
+                  </div>
+                  <div class="col col-33" ng-if="$index + 2 < images.customer_image.length">
+                      <img class="imagesallery-grid-img" ng-src="{{gallery_basePath+images.customer_image[$index + 2].image_path}}" width="100%" ng-click="viewDetails(images.customer_image[$index + 2])"  />
+                       
+                  </div>
+               </div>
+
+           <div class="row text-center" ng-if="images.customer_image.length == 0">
+              <div class="col text-center">
+                <p> {{ "No photos uploaded yet" | translate:"imagesallery" }}!</p>
+              </div>
+            </div>
+         </div>
+    </div>
+    </ion-content>
+</ion-view>

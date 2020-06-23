@@ -1,0 +1,10 @@
+<div class="precise-item">
+  <span class="precise-text-input input-label" ng-class="{ error: missed }">{{ description }}</span>
+  <ion-list >
+    <ion-checkbox
+      ng-model="checkbox_model[$index]"
+      ng-repeat="option in optionlist track by $index"
+      ng-change="change($index)"
+    >{{ option }}</ion-checkbox>
+  </ion-list>
+</div>

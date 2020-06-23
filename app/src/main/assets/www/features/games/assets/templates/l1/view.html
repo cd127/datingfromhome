@@ -1,0 +1,98 @@
+<ion-view sb-page-background class="games-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <style>
+      #gameiframe {
+      height: {{height}}px;
+      width: 100vw;
+      border: none;
+      padding: 0;
+      margin: 0;
+      overflow: scroll !important;
+      }
+      .layout.layout_Fn_module {
+        display: block;
+        line-height: 0;
+        color: #666;
+        width:80%;
+        margin:0 auto;
+        margin-bottom: 40px;
+      }
+
+      .layout.layout_Fn_module .fn_logo img{
+        display: block;
+        margin: 30px auto;
+        width: 250px;
+      }
+
+      .layout.layout_Fn_module .fn_main{
+        margin-top: 40px;
+      }
+
+      .layout.layout_Fn_module .fn_grid{
+        position:relative;
+        width:100%;
+        float:none;
+        margin-left: auto;
+        margin-top: auto;
+        border: 1px solid #E6E3E3;
+        border-radius: 0.3em;
+        -webkit-border-radius: 0.3em;
+        -moz-border-radius: 0.3em;
+        -o-border-radius: 0.3em;
+        background-color: #FFFFFF;
+      }
+
+
+      .layout.layout_Fn_module .fn_grid_head{
+        position:relative;
+        height: 120px;
+        border-top-left-radius: 0.3em;
+        border-top-right-radius: 0.3em;
+        -webkit-border-top-left-radius: 0.3em;
+        -webkit-border-top-right-radius: 0.3em;
+        -moz-border-top-left-radius: 0.3em;
+        -moz-border-top-right-radius: 0.3em;
+        -o-border-top-left-radius: 0.3em;
+        -o-border-top-right-radius: 0.3em;
+      }
+
+      .layout.layout_Fn_module .fn_grid_head img{
+      width:100%;
+      height: 100%;
+      }
+
+      .layout.layout_Fn_module .fn_grid h3{
+        text-align: center;
+        color: #484848;
+        font-size: 18px;
+      }
+
+      .layout.layout_Fn_module .fn_grid p{
+        text-align: center;
+        color: #484848;
+        font-size: 12px;
+        margin: 0 auto;
+        padding: 0px 0px 1.8em 0;
+      }
+    </style>
+
+    <ion-content>
+      <iframe ng-hide="gameiframe" id="gameiframe" ng-src="{{url}}" onLoad="IframeLoaded();"></iframe>
+      <ul ng-if="games_settings == '0'" ng-hide="gamelist" class="list">
+          <li ng-repeat="game in games" ng-click="view(game.game_url)" class="item">
+            {{game.game_name}}
+          </li>
+      </ul>
+      <span ng-if="games_settings == '1'" ng-hide="gamelist" class="layout layout_Fn_module">
+        <div class="fn_main" class="item homepage-custom translucent" ng-repeat="game in games" ng-click="view(game.game_url)">
+          <div class="fn_grid">
+            <div class="fn_grid_head">
+              <img ng-src="{{ game.game_photo }}" />
+            </div>
+            <h3>{{ game.game_name }}</h3>
+          </div>
+        </div>
+      </span>
+    </ion-content>
+
+</ion-view>

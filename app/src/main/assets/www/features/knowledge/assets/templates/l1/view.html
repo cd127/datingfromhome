@@ -1,0 +1,280 @@
+<ion-view sb-page-background cache-view="false" view-title=" ">
+	<ion-nav-buttons side="secondary">
+        <button class="statusClass" ng-click="postStatus()"ng-if="!is_loading">
+            <i ng-class="{'onstatus': notification_status == '1', 'offstatus': notification_status == '0'}" class="icon ion-android-notifications"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content scrollbar-y="false" class="has-header">
+		<div class="loader" ng-show="is_loading">
+		    <ion-spinner class="spinner-custom"></ion-spinner>
+		</div>
+        <div class="list forum-list fanwall-list"
+			 ng-if="!is_loading && collection">
+			<div class="item item-text-wrap item-custom card list-item-custom margin-10 no-border no-pad">
+				<span class="edited padding-5"
+					  ng-if="collection.details.date_posted">
+					<span class="edited-inner-date"
+						  ng-if="!collection.details.is_edited">
+						{{ collection.details.date_posted }}
+					</span>
+					<span ng-if="collection.details.is_edited">
+						<span class="edited-inner-date">
+							{{ collection.details.is_edited.time }}
+						</span>
+						<br/>
+						<span class="edited-inner-text">
+							{{ "(edited)" | translate }}
+						</span>
+					</span>
+					<br>
+					<span>
+						<a href="javascript:void(0)"
+						   class="edit-answer"
+						   ng-if="collection.details.is_editable && is_logged_in"
+						   ng-click="editPost(collection.id)">
+							{{ "Edit" | translate}}
+						</a>
+						<a href="javascript:void(0)"
+						   class="delete-answer"
+						   ng-if="collection.details.is_editable && is_logged_in"
+						   ng-click="deletePost(collection.id)">
+							{{ "Delete" | translate}}
+						</a>
+					</span>
+				</span>
+				<div class="item item-custom item-avatar no-border min-height-50">
+					<img ng-src="{{ collection.icon }}"/>
+					<h2 class="padding-top-10">{{ collection.author }}</h2>
+				</div>
+				<div class="item item-text-wrap item-custom message no-border">
+					<span class="question">{{"Question" | translate}}</span>
+					<div ng-if="collection.image" class="img_div">
+						<img class="question_img" ng-src="{{ collection.image }}"/>
+                	</div>
+                	<div class="bold white-space-pre"
+						 ng-bind-html="collection.title"></div>
+				</div>
+			</div>
+
+            <div class="card list-item-custom margin-10"
+				 ng-if="is_logged_in">
+                <div class="item item-custom">
+                <div class="row">
+					<div class="col-50 text-center" ng-click="addAnswer()">
+		                {{ "Answer" | translate }}
+	                    <i class="icon ion-ios-chatboxes-outline"
+						   ng-if="!collection.details.answers.has_own"></i>
+		                <i class="icon ion-ios-chatboxes"
+						   ng-if="collection.details.answers.has_own"></i>
+		                {{ collection.details.answers.text }}
+	        		</div>
+                    <div class="col-50 text-center" ng-click="addLike()">
+		                {{ "Like" | translate }}
+	                    <i class="icon ion-ios-heart-outline"
+						   ng-if="!collection.details.likes.has_own"></i>
+		                <i class="icon ion-ios-heart"
+						   ng-if="collection.details.likes.has_own"></i>
+		                {{ collection.details.likes.text }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card list-item-custom margin-10"
+				 ng-if="is_logged_in">
+			<div ng-repeat="forum_answer in answers"
+				 ng-if="!is_loading && answers.length"
+				 class="answers item item-text-wrap item-custom card list-item-custom margin-10 no-border no-pad">
+				<span class="edited padding-5"
+					  ng-if="forum_answer.is_edited">
+					<span class="edited-inner-date">{{ forum_answer.is_edited.time }}</span>
+						<br>
+					<span class="edited-inner-text"
+						  ng-if="forum_answer.is_edited.edited">{{ "(edited)" | translate }}</span>
+				</span>
+				<div class="item item-custom item-avatar no-border min-height-50">
+					<img ng-src="{{ forum_answer.icon }}"/>
+					<h2 class="padding-top-10">{{ forum_answer.author }}</h2>
+				</div>		
+				<div ng-if="forum_answer.image" class="img_div">
+					<img class="question_img" ng-src="{{forum_answer.base_url}}{{ forum_answer.image }}"/>
+				</div>	
+				<div class="item item-custom no-border justify no-pad-bottom white-space-pre"
+					 ng-bind-html="getText(forum_answer.text)"></div>
+				<div class="item item-custom no-border no-pad-bottom">
+					<a href="javascript:void(0)"
+					   class="edit-answer"
+					   ng-if="forum_answer.is_editable && is_logged_in"
+					   ng-click="addAnswer(forum_answer.id)">
+						{{ "Edit" | translate}}
+					</a>
+					<a href="javascript:void(0)"
+					   class="delete-answer"
+					   ng-if="forum_answer.is_editable && is_logged_in"
+					   ng-click="deleteAnswer(forum_answer.id)">
+						{{ "Delete" | translate}}
+					</a>
+					<a href="javascript:void(0)"
+					   class="reply-answer"
+					   ng-if="forum_answer.is_editable && is_logged_in"
+					   ng-click="replyAnswer(forum_answer.id)">
+						{{ "Reply" | translate}}
+					</a>
+				</div>
+				<div class="item item-custom no-pad-top bold no-border text-right">
+					<span ng-click="goToReply(forum_answer.id)"
+						  class="read-more">
+						{{ "Read more" | translate }}...
+					</span>
+			    </div>
+				<div class="item item-image item-custom gallery-view no-border">
+                	<hr style="margin: 1px auto; width: 90%;">
+                    <p class="padding text-right">
+                        <span>
+                	        <i class="icon ion-ios-chatboxes-outline"
+							   ng-if="!forum_answer.replies.has_own"></i>
+	                		<i class="icon ion-ios-chatboxes"
+							   ng-if="forum_answer.replies.has_own"></i>
+                            {{ forum_answer.replies.text }}
+                        </span>
+                        <span>
+		                    <i class="icon ion-ios-heart-outline"
+							   ng-if="!forum_answer.likes.has_own"></i>
+			                <i class="icon ion-ios-heart"
+							   ng-if="forum_answer.likes.has_own"></i>
+                            {{ forum_answer.likes.text }}
+                        </span>
+                    </p>
+					<div class="clear"></div>
+                </div>
+			</div>
+        </div>
+
+        <div class="list" ng-if="!is_loading && !collection">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate }}
+            </div>
+        </div>
+
+		<ion-infinite-scroll ng-if="can_load_older_posts"
+		                     on-infinite="loadMore()"
+		                     immediate-check="false"
+		                     distance="10%"
+		                     class="spinner-custom">
+		</ion-infinite-scroll>
+    </ion-content>
+
+	<style type="text/css">
+		.item-avatar-header {
+			position: relative;
+		}
+		.item-list-header {
+			background-color: #fff;
+		}
+		.no-pad-bottom {
+			padding-bottom: 0; 
+		}
+		.no-pad-top {
+			padding-top: 0; 
+		}
+		.margin-10 {
+			margin-top: 10px; 
+			margin-bottom: 10px; 
+		}
+		.min-height-50 {
+			min-height: 50px;
+		}
+		.forum-list .list-item-custom .custom-list-icon {
+			top: 5px;
+		}
+		.card {
+	    	border-radius: 10px;		
+		}
+		.forum-list .no-border {
+		    border: 0 !important;
+		}
+		.forum-list .item-list-header i {
+		    font-size: 6px;
+		}
+/*		.col-50 {
+			width: 50%;
+		    float: left !important;
+		    border: none;
+		    padding: 10px 20px;
+		    display: inline-block;
+		    padding-left: 5px;
+		    padding-right: 0;
+		    text-align: center;
+		    font-size: 14px;
+		}*/
+		.answer.col-50 {
+			border-right: 1px solid #e2e2e2 !important;
+		}
+		.like.col-50 {
+			padding-left: 0px;
+		}
+		a.delete-answer, a.edit-answer, a.reply-answer {
+		    font-size: 10px;
+		    margin-right: 5px;
+		}
+		.padding-top-bottom-5 {
+			padding: 5px 0;
+		}
+		.no-pad {
+		    padding: 0;
+		}
+		.no-pad-top-bottom {
+		    padding-top: 0;
+		    padding-bottom: 0;
+		}
+		.padding-10 {
+		    padding: 10px;
+		}
+		.padding-5 {
+		    padding: 5px;
+		}
+
+		.padding-top-10 {
+		    padding-top: 10px;
+		}
+		.edited {
+			float: right;
+			font-size: 12px;
+			line-height: 15px;
+			text-align: center;
+			z-index: 999;
+			position: inherit;
+		}
+		.question, .answer, .read-more {
+			font-size: 12px;
+		}
+		.white-space-pre {
+			white-space: pre-line !important;
+		}
+
+		img.question_img {
+    		max-width: 70%;
+    	}
+    	.img_div {
+    		text-align: center;
+		}
+
+		.statusClass {
+			border: none !important;
+			background: none !important;
+		}
+
+		i.icon.ion-android-notifications.onstatus {
+			color: #ffd600 !important;
+		}
+
+		i.icon.ion-android-notifications.offstatus {
+			color: #858585 !important;
+		}
+
+		i.icon.ion-android-notifications {
+			font-size: 25px;
+		}
+
+	</style>
+</ion-view>

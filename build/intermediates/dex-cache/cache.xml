@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Volumes/hackintosh/devs/repos/siberian/ionic/platforms/android/app/build/intermediates/transforms/desugar/release/0.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="29.0.2"
+        sha1="29af615145cfdd6eb0f00078e0034c6f3c5f92b6">
+        <dex dex="/Volumes/hackintosh/devs/repos/siberian/ionic/platforms/android/app/build/intermediates/transforms/preDex/release/1.jar" />
+    </item>
+
+</items>

@@ -1,0 +1,101 @@
+<ion-view sb-page-background
+          view-title="{{ page_title | translate }}">
+    <ion-content>
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner></ion-spinner>
+        </div>
+        <div class="text-center no-border">
+            <div class="item item-custom item-avatar-custom no-border no-pad-bottom no-background">
+                <img ng-src="{{ my_avatar_url }}"/>
+                <h2 class="news-view-title">{{ customer_name }}</h2>
+            </div>
+            
+            <div class="item item-text-wrap item-custom bold no-border no-background">
+                {{ "What do you want to share/ask today?" | translate }}
+            </div>
+        </div>
+        <div class="custom-list no-border">
+            <label class="item item-input item-custom">
+                <textarea rows="5"
+                          ng-model="new_post.text"
+                          placeholder="{{ 'Your question' | translate }}"
+                          class="no-resize"></textarea>
+            </label>
+            <div class="item item-body add_image_div">
+                <div ng-if="new_post.image" class="img_div">
+                    <img class="question_img" ng-src="{{ new_post.image }}"/>
+                </div>
+                <div class="item item-divider" ng-click="addImage()">
+                    {{"Add Image" | translate }}
+                </div>
+            </div>
+        </div>
+        <div class="card no-shadow no-border">
+            <p>{{ "Select the category of your question" | translate }}</p>
+            <ion-row>
+                <ion-col ng-repeat="tag in tags">
+                    <button class="tag-button button button-outline button-assertive button-assertive-custom"
+                            ng-click="tagButton(tag.tag_id)"
+                            ng-class="{'active': new_post.tagged_id[tag.tag_id]}"
+                            ng-disabled="!new_post.tagged_id[tag.tag_id] && tags_disabled">
+                        {{ tag.tag_name }}
+                    </button>
+                </ion-col>
+            </ion-row>
+        </div>
+        <div class="padding-10">
+            <button type="button"
+                    class="button button-custom button-positive button-positive-custom button-block"
+                    ng-click="sendPost()"
+                    ng-show="!is_loading">
+                {{ "Send" | translate }}
+            </button>
+        </div>
+    </ion-content>
+    <style type="text/css">
+        .tag-button {
+            margin: 5px 0;
+            padding: 3px;
+            max-height: 30px;
+            min-height: 20px;
+            line-height: 20px;
+        }
+        .no-shadow {
+            box-shadow: none;
+        }
+        .item-avatar-custom img {
+            max-width: 40px;
+            max-height: 40px;
+            border-radius: 50%;
+        }
+        .no-border {
+            border: 0;
+        }
+        .no-background {
+            background: transparent;
+            background-color: transparent;
+        }
+        .no-pad-bottom {
+            padding-bottom: 0;
+        }
+        .custom-list {
+            padding: 20px 0;
+        }
+        .padding-10 {
+            padding: 10px;
+        }
+        .add_image_div {
+            background: none;
+            border: none;
+            text-align: center;
+        }
+
+        img.question_img {
+            max-width: 50%;
+        }
+        .img_div {
+            text-align: center;
+        }
+    </style>
+</ion-view>
